@@ -15,8 +15,38 @@
       </div>
 
       <div class="card-body">
-        <form class="{{ route('filterAspirasi') }}" method="POST">
+        {{-- <form class="{{ route('filterAspirasi') }}" method="POST">
           @csrf
+          <div class="row">
+            <div class="col-sm-4 col-12">
+              <div class="form-group">
+                <label for="tgl_awal">Dari Tanggal</label>
+                <input type="date" id="tgl_awal" name="tgl_awal" class="form-control">
+              </div>
+            </div>
+                      
+            <div class="col-sm-4 col-12">
+              <div class="form-group">
+                <label for="tgl_akhir">Sampai Tanggal</label>
+                <input type="date" id="tgl_akhir" name="tgl_akhir" class="form-control">
+              </div>
+            </div>
+
+            <div class="col-sm-4 col-12" style="margin-top:25px;">
+              <div class="btn-group mb-3 btn-group" role="group" aria-label="Basic example">
+                <button type="submit" class="btn btn-primary" style="font-size:14px;"><i class="bi bi-search"></i> Filter</button>
+                <a href="/aspirasi" type="button" class="btn btn-light-secondary" style="font-size:14px;"><i class="bi bi-arrow-repeat"></i> Refresh</a>
+                @if(auth('pegawai')->user()->level == "Admin")
+                  @if($dataaspirasi ?? '')
+                  <a href="{{ route('laporan_aspirasipdf', ['tgl_awal' => $tgl_awal, 'tgl_akhir' => $tgl_akhir ]) }}" 
+                    target="_blank" class="btn btn-primary" style="font-size:14px;"><i class="fa fa-print fa-3px"></i> Print</a>
+                  @endif
+                  @endif
+              </div>
+            </div>
+          </div>
+        </form> --}}
+        <form class="{{ route('indexAspirasi') }}" method="GET">
           <div class="row">
             <div class="col-sm-4 col-12">
               <div class="form-group">
@@ -100,8 +130,7 @@
                   <td style="text-align:center;" width="80px">
                     @if ( $semuaaspirasi->status == 'Aktif')
                       <span class="badge bg-success" style="font-size: 12px;">Aktif</span>
-
-                      @else ($semuaaspirasi->status == 'Tidak Aktif')
+                    @else
                         <span class="badge bg-danger" style="font-size: 12px;">Tidak Aktif</span>    
                     @endif
                   </td>
@@ -130,82 +159,82 @@
                             </button>
                         </div>
                       
-                  <!-- FORM EDIT STATUS -->
-                    <div class="modal-body">
-                      <form action="/aspirasi/{{ $semuaaspirasi->id }}" method="POST">
-                      @csrf
-                      @method('PUT')
-                        <!--TAMPILKAN DATA ASPIRASI BERDASARKAN ID -->
-                        <div class="form-group">
-                          <label for="judul" style="color:#000;">Judul Aspirasi</label>
-                            <input type="text" class="form-control-plaintext" id="judul" name="judul" value="{{ $semuaaspirasi->judul }}" readonly>
+                        <!-- FORM EDIT STATUS -->
+                        <div class="modal-body">
+                          <form action="/aspirasi/{{ $semuaaspirasi->id }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <!--TAMPILKAN DATA ASPIRASI BERDASARKAN ID -->
+                            <div class="form-group">
+                              <label for="judul" style="color:#000;">Judul Aspirasi</label>
+                                <input type="text" class="form-control-plaintext" id="judul" name="judul" value="{{ $semuaaspirasi->judul }}" readonly>
+                            </div>
+              
+                            <div class="form-group">
+                              <label for="deskripsi" style="color:#000;">Deskripsi</label>
+                                <p type="text" id="deskripsi" name="deskripsi" readonly style="text-align:justify;">{{ $semuaaspirasi->deskripsi }}</p>
+                            </div>
+                            
+                            <div class="form-group">
+                              <label for="created_at" style="color:#000;">Tanggal Input Aspirasi</label>
+                                <input type="text" class="form-control-plaintext" id="created_at" name="created_at" value="{{ $semuaaspirasi->created_at->format('d M Y') }}" readonly>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 col-12">
+                                  <div class="form-group">
+                                    <label for="pemohon_id" style="color:#000;">Nama Pemohon</label>
+                                    <input type="text" class="form-control-plaintext" id="pemohon_id" name="pemohon_id" value="{{ $semuaaspirasi->pemohon->nama }}" readonly>
+                                  </div>
+                                </div>
+
+                                <div class="col-md-6 col-12">
+                                  <div class="form-group">
+                                    <label for="pemohon_id" style="color:#000;">Username Pemohon</label>
+                                    <input type="text" class="form-control-plaintext" id="pemohon_id" name="pemohon_id" value="{{ $semuaaspirasi->pemohon->username }}" readonly>
+                                  </div>
+                                </div>
+
+                                <div class="col-md-6 col-12">
+                                  <div class="form-group">
+                                    <label for="updated_at" style="color:#000;">Update Status Terakhir</label>
+                                    <input type="text" class="form-control-plaintext" id="updated_at" name="updated_at" value="{{ $semuaaspirasi->updated_at->format('d M Y') }}" readonly>
+                                  </div>
+                                </div>
+
+                              @if(auth('pegawai')->user()->level == "Admin")
+                                <div class="col-md-6 col-12">
+                                  <div class="form-group">
+                                      <label for="status" style="color:#000;">Status</label>
+                                      <select name="status" class="form-select @error('status') is-invalid @enderror">
+                                          <option value="{{ $semuaaspirasi->status }}" selected>{{ $semuaaspirasi->status }}</option>
+                                          <optgroup label="-- Pilih Status --">
+                                            <option value="Aktif">Aktif</option>
+                                            <option value="Tidak Aktif">Tidak Aktif</option>
+                                          </optgroup>
+                                      </select>
+                                  </div> 
+                                </div>
+
+                                @else
+                                <div class="col-md-6 col-12">
+                                  <div class="form-group">
+                                      <label for="status" style="color:#000;">Status</label>
+                                      <input type="text" class="form-control-plaintext" id="status" name="status" value="{{ $semuaaspirasi->status }}" readonly>
+                                  </div> 
+                                </div>
+                              @endif
+                            </div>
+
+                            <!-- end tampil data -->
+                            @if(auth('pegawai')->user()->level == "Admin")
+                              <button type="submit" class="btn btn-success btn-sm" style="float:right;">Ubah Status</button>
+                            @endif
+                          </form>
                         </div>
-          
-                        <div class="form-group">
-                          <label for="deskripsi" style="color:#000;">Deskripsi</label>
-                            <p type="text" id="deskripsi" name="deskripsi" readonly style="text-align:justify;">{{ $semuaaspirasi->deskripsi }}</p>
-                        </div>
-                        
-                        <div class="form-group">
-                          <label for="created_at" style="color:#000;">Tanggal Input Aspirasi</label>
-                            <input type="text" class="form-control-plaintext" id="created_at" name="created_at" value="{{ $semuaaspirasi->created_at->format('d M Y') }}" readonly>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 col-12">
-                              <div class="form-group">
-                                <label for="pemohon_id" style="color:#000;">Nama Pemohon</label>
-                                <input type="text" class="form-control-plaintext" id="pemohon_id" name="pemohon_id" value="{{ $semuaaspirasi->pemohon->nama }}" readonly>
-                              </div>
-                            </div>
-
-                            <div class="col-md-6 col-12">
-                              <div class="form-group">
-                                <label for="pemohon_id" style="color:#000;">Username Pemohon</label>
-                                <input type="text" class="form-control-plaintext" id="pemohon_id" name="pemohon_id" value="{{ $semuaaspirasi->pemohon->username }}" readonly>
-                              </div>
-                            </div>
-
-                            <div class="col-md-6 col-12">
-                              <div class="form-group">
-                                <label for="updated_at" style="color:#000;">Update Status Terakhir</label>
-                                <input type="text" class="form-control-plaintext" id="updated_at" name="updated_at" value="{{ $semuaaspirasi->updated_at->format('d M Y') }}" readonly>
-                              </div>
-                            </div>
-
-                          @if(auth('pegawai')->user()->level == "Admin")
-                            <div class="col-md-6 col-12">
-                              <div class="form-group">
-                                  <label for="status" style="color:#000;">Status</label>
-                                  <select name="status" class="form-select @error('status') is-invalid @enderror">
-                                      <option value="{{ $semuaaspirasi->status }}" selected>{{ $semuaaspirasi->status }}</option>
-                                      <optgroup label="-- Pilih Status --">
-                                        <option value="Aktif">Aktif</option>
-                                        <option value="Tidak Aktif">Tidak Aktif</option>
-                                      </optgroup>
-                                  </select>
-                              </div> 
-                            </div>
-
-                            @else
-                            <div class="col-md-6 col-12">
-                              <div class="form-group">
-                                  <label for="status" style="color:#000;">Status</label>
-                                  <input type="text" class="form-control-plaintext" id="status" name="status" value="{{ $semuaaspirasi->status }}" readonly>
-                              </div> 
-                            </div>
-                          @endif
-                        </div>
-
-                        <!-- end tampil data -->
-                        @if(auth('pegawai')->user()->level == "Admin")
-                          <button type="submit" class="btn btn-success btn-sm" style="float:right;">Ubah Status</button>
-                        @endif
-                        </form>
                       </div>
                     </div>
-                  </div>
-                </div>                        
+                  </div>                        
                 </tr>
 
               @endforeach

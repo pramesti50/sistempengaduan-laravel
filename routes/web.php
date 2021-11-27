@@ -100,9 +100,10 @@ Route::group(['middleware' => ['auth:pegawai','aksesverifikator', 'revalidate']]
         Route::post('/pengaduan/cetakpengaduan', 'App\Http\Controllers\PengaduanController@cariCetakPengaduanTanggal')->name('caripengaduantgl');
 
     //Kelola Data Aspirasi
-    Route::get('/aspirasi', 'App\Http\Controllers\AspirasiController@indexDataAspirasi');
+    Route::get('/aspirasi', 'App\Http\Controllers\AspirasiController@indexDataAspirasi')->name('indexAspirasi');
     Route::put('/aspirasi/{id}', 'App\Http\Controllers\AspirasiController@edit_StatusAspirasi');
-    Route::post('/aspirasi', 'App\Http\Controllers\AspirasiController@filterAspirasi')->name('filterAspirasi');
+    // Route::post('/aspirasi', 'App\Http\Controllers\AspirasiController@filterAspirasi')->name('filterAspirasi');
+
     Route::get('/aspirasi/laporan-PDFaspirasi/{tgl_awal}/{tgl_akhir}', 'App\Http\Controllers\AspirasiController@cetakpdfAspirasi')->name('laporan_aspirasipdf');
 
 

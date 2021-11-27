@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Aspirasi;
-use PDF;
 use \Carbon\Carbon;
-use Auth;
+use App\Models\Aspirasi;
+use Barryvdh\DomPDF\PDF;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AspirasiController extends Controller
 {
@@ -67,12 +67,12 @@ class AspirasiController extends Controller
             if(Auth::guard('pegawai')->user()->level == "Admin")
             {
                 //semua status aktif dan tidak aktif di tampilan admin
-                $dataaspirasi = Aspirasi::latest()->paginate(20);   
+                $dataaspirasi = Aspirasi::latest()->paginate(5);   
             }
             else 
             {
                 //hanya menampilkan status aktif di tampilan verifikator
-                $dataaspirasi = Aspirasi::where(['status' => 'Aktif'])->orderby('id', 'desc')->paginate(20);
+                $dataaspirasi = Aspirasi::where(['status' => 'Aktif'])->orderby('id', 'desc')->paginate(5);
             }
 
             return view('aspirasi.index', compact(['dataaspirasi', 'tgl_awal', 'tgl_akhir', 'totalaspirasi']));
@@ -99,19 +99,20 @@ class AspirasiController extends Controller
             if(Auth::guard('pegawai')->user()->level == "Admin")
             {
                 //tampil semua status
-                $dataaspirasi = Aspirasi::whereBetween('created_at',[$tgl_awal, $tgl_akhir])->paginate(15);
+                $dataaspirasi = Aspirasi::whereBetween('created_at',[$tgl_awal, $tgl_akhir])->paginate(5);
                 
                
             }
             else
             {
                 //tampil filter HANYA data status yg aktif
-                $dataaspirasi = Aspirasi::whereBetween('created_at',[$tgl_awal, $tgl_akhir])->where(['status' => 'Aktif'])->paginate(15);
+                $dataaspirasi = Aspirasi::whereBetween('created_at',[$tgl_awal, $tgl_akhir])->where(['status' => 'Aktif'])->paginate(5);
                 
             }
+
+            // dd($tgl_awal);
         
-        return view('aspirasi.index', ['dataaspirasi' => $dataaspirasi, 'tgl_awal' => $tgl_awal, 
-                                        'tgl_akhir' => $tgl_akhir, 'totalaspirasi' => $totalaspirasi]);
+        return view('aspirasi.index', compact(['dataaspirasi', 'tgl_awal', 'tgl_akhir', 'totalaspirasi']));
     }
 
 
