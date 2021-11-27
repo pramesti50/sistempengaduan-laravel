@@ -51,14 +51,14 @@
             <div class="col-sm-4 col-12">
               <div class="form-group">
                 <label for="tgl_awal">Dari Tanggal</label>
-                <input type="date" id="tgl_awal" name="tgl_awal" class="form-control">
+                <input type="date" id="tgl_awal" name="tgl_awal" class="form-control" value="{{ request()->input('tgl_awal') }}">
               </div>
             </div>
                       
             <div class="col-sm-4 col-12">
               <div class="form-group">
                 <label for="tgl_akhir">Sampai Tanggal</label>
-                <input type="date" id="tgl_akhir" name="tgl_akhir" class="form-control">
+                <input type="date" id="tgl_akhir" name="tgl_akhir" class="form-control" value="{{ request()->input('tgl_akhir') }}">
               </div>
             </div>
 
