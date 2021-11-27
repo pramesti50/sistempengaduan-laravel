@@ -64,7 +64,11 @@ class AspirasiController extends Controller
         $tgl_awal =$request->tgl_awal . ' '.'00:00:00';
         $tgl_akhir =$request->tgl_akhir . ' '.'23:59:59';
 
-            if(Auth::guard('pegawai')->user()->level == "Admin")
+            if (empty($request->tgl_awal) && empty($request->tgl_akhir))
+            {
+                $dataaspirasi = Aspirasi::latest()->paginate(5);
+            }
+            else if(Auth::guard('pegawai')->user()->level == "Admin")
             {
                 //tampil semua status
                 $dataaspirasi = Aspirasi::whereBetween('created_at',[$tgl_awal, $tgl_akhir])->paginate(5);
