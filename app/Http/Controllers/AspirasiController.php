@@ -90,12 +90,9 @@ class AspirasiController extends Controller
         $datanya = Aspirasi::with('pemohon');
         if ($tgl_awal != ' 00:00:00' && $tgl_akhir != ' 23:59:59') {
             $datanya->whereBetween('created_at',[$tgl_awal, $tgl_akhir]);
-        }
-        if ($tgl_awal == ' 00:00:00') {
+        } else {
             $tgl_awalnya = Aspirasi::with('pemohon')->orderby('created_at', 'asc')->first();
             $tgl_awal = Carbon::parse($tgl_awalnya->created_at->format('m/d/Y'))->format('d F Y');
-        }
-        if ($tgl_akhir == ' 23:59:59') {
             $tgl_akhirnya = Aspirasi::with('pemohon')->orderby('created_at', 'desc')->first();
             $tgl_akhir = Carbon::parse($tgl_akhirnya->created_at->format('m/d/Y'))->format('d F Y');
         }
