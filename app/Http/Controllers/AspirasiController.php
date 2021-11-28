@@ -128,7 +128,7 @@ class AspirasiController extends Controller
         $date = Carbon::now()->toDateString();
         
         $datanya = Aspirasi::with('pemohon');
-        if ($tgl_awal != ' 00:00:00' && $tgl_akhir == ' 23:59:59') {
+        if ($tgl_awal != ' 00:00:00' && $tgl_akhir != ' 23:59:59') {
             $datanya->whereBetween('created_at',[$tgl_awal, $tgl_akhir]);
         }
         if ($tgl_awal == ' 00:00:00') {
