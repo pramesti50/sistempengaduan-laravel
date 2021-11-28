@@ -210,39 +210,45 @@ class PengaduanController extends Controller
 
 //===========AKSES ADMIN CETAK PENGADUAN=================AKSES ADMIN CETAK PENGADUAN=================================
     
-    public function indexCetakPengaduan()
+    public function indexCetakPengaduan(Request $request)
     {
         $blmproses = Pengaduan::where('status', 'Belum Diproses')->count();
         $sedangproses = Pengaduan::where([['status', '!=', 'Belum Diproses'], ['status', '!=', 'Selesai'], ['status', '!=', 'Tidak Aktif']])->count();
         $selesai = Pengaduan::where('status', 'Selesai')->count();
-        $aktif = Pengaduan::where([['status', '!=', 'Tidak Aktif']])->count();
+        $aktif = Pengaduan::where('status', '!=', 'Tidak Aktif')->count();
         $tdkaktif = Pengaduan::where('status', 'Tidak Aktif')->count();
         $total = Pengaduan::all()->count();
 
+        $cetakTglPengaduan = null;
 
-        return view('pengaduan.cetakpengaduan', compact(['blmproses', 'sedangproses', 'selesai', 'aktif','tdkaktif','total']));
+        $tgl_awalpengaduan = $request->tgl_awalpengaduan;
+        $tgl_akhirpengaduan = $request->tgl_akhirpengaduan;
+
+        if (!empty($tgl_awalpengaduan) && !empty($tgl_akhirpengaduan)) {
+            $cetakTglPengaduan = Pengaduan::with('pemohon', 'pegawai')->whereBetween('tgl_pengaduan',[$tgl_awalpengaduan, $tgl_akhirpengaduan])->paginate(5);;
+        }
+
+        return view('pengaduan.cetakpengaduan', compact(['cetakTglPengaduan', 'tgl_awalpengaduan', 'tgl_akhirpengaduan', 'blmproses', 'sedangproses', 'selesai', 'aktif','tdkaktif','total']));
     }
 
-    public function cariCetakPengaduanTanggal (Request $request)
-    {
-        $blmproses = Pengaduan::where('status', 'Belum Diproses')->count();
-        $sedangproses = Pengaduan::where([['status', '!=', 'Belum Diproses'], ['status', '!=', 'Selesai'], ['status', '!=', 'Tidak Aktif']])->count();
-        $selesai = Pengaduan::where('status', 'Selesai')->count();
-        $aktif = Pengaduan::where([['status', '!=', 'Tidak Aktif']])->count();
-        $tdkaktif = Pengaduan::where('status', 'Tidak Aktif')->count();
-        $total = Pengaduan::all()->count();
+    // public function cariCetakPengaduanTanggal (Request $request)
+    // {
+    //     $blmproses = Pengaduan::where('status', 'Belum Diproses')->count();
+    //     $sedangproses = Pengaduan::where([['status', '!=', 'Belum Diproses'], ['status', '!=', 'Selesai'], ['status', '!=', 'Tidak Aktif']])->count();
+    //     $selesai = Pengaduan::where('status', 'Selesai')->count();
+    //     $aktif = Pengaduan::where([['status', '!=', 'Tidak Aktif']])->count();
+    //     $tdkaktif = Pengaduan::where('status', 'Tidak Aktif')->count();
+    //     $total = Pengaduan::all()->count();
 
-        //filter tgl
-            $tgl_awalpengaduan = $request->tgl_awalpengaduan;
-            $tgl_akhirpengaduan = $request->tgl_akhirpengaduan;
+    //     //filter tgl
+    //         $tgl_awalpengaduan = $request->tgl_awalpengaduan;
+    //         $tgl_akhirpengaduan = $request->tgl_akhirpengaduan;
 
-        $cetakTglPengaduan = Pengaduan::whereBetween('tgl_pengaduan',[$tgl_awalpengaduan, $tgl_akhirpengaduan])->get();
+    //     $cetakTglPengaduan = Pengaduan::whereBetween('tgl_pengaduan',[$tgl_awalpengaduan, $tgl_akhirpengaduan])->get();
 
-        return view('pengaduan.cetakpengaduan', ['cetakTglPengaduan' => $cetakTglPengaduan, 
-            'tgl_awalpengaduan' => $tgl_awalpengaduan, 'tgl_akhirpengaduan' => $tgl_akhirpengaduan, 
-            'blmproses' => $blmproses, 'sedangproses' => $sedangproses, 'selesai' => $selesai, 'tdkaktif' => $tdkaktif, 
-            'aktif' => $aktif,'total' => $total]);
-    }
+    //     return view('pengaduan.cetakpengaduan', ['cetakTglPengaduan' => $cetakTglPengaduan, 
+    //         'tgl_awalpengaduan' => $tgl_awalpengaduan, 'tgl_akhirpengaduan' => $tgl_akhirpengaduan, 'blmproses' => $blmproses, 'sedangproses' => $sedangproses, 'selesai' => $selesai, 'tdkaktif' => $tdkaktif, 'aktif' => $aktif,'total' => $total]);
+    // }
 
     public function cetakPdfPengaduan($tgl_awalpengaduan, $tgl_akhirpengaduan)
     {

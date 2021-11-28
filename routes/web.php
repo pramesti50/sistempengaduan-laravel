@@ -96,8 +96,8 @@ Route::group(['middleware' => ['auth:pegawai','aksesverifikator', 'revalidate']]
         Route::patch('/pengaduan/detail-selesai/{selesai}', 'App\Http\Controllers\PengaduanController@editTanggapanSelesai');
 
         //Filter Data Pengaduan
-        Route::get('/pengaduan/cetakpengaduan', 'App\Http\Controllers\PengaduanController@indexCetakPengaduan');
-        Route::post('/pengaduan/cetakpengaduan', 'App\Http\Controllers\PengaduanController@cariCetakPengaduanTanggal')->name('caripengaduantgl');
+        Route::get('/pengaduan/cetakpengaduan', 'App\Http\Controllers\PengaduanController@indexCetakPengaduan')->name('indexCetakPengaduan');
+        // Route::post('/pengaduan/cetakpengaduan', 'App\Http\Controllers\PengaduanController@cariCetakPengaduanTanggal')->name('caripengaduantgl');
 
     //Kelola Data Aspirasi
     Route::get('/aspirasi', 'App\Http\Controllers\AspirasiController@indexDataAspirasi')->name('indexAspirasi');
