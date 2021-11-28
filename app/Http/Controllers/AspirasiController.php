@@ -86,8 +86,21 @@ class AspirasiController extends Controller
     public function cetakpdfAspirasi($tgl_awal, $tgl_akhir)
     {
         $date = Carbon::now()->toDateString();
-
-        $dataaspirasi = Aspirasi::whereBetween('created_at',[$tgl_awal, $tgl_akhir])->get();
+        
+        $datanya = Aspirasi::with('pemohon');
+        if ($tgl_awal != ' 00:00:00' && $tgl_akhir != ' 23:59:59') {
+            $datanya->whereBetween('created_at',[$tgl_awal, $tgl_akhir]);
+        }
+        if ($tgl_awal == ' 00:00:00') {
+            $tgl_awalnya = Aspirasi::with('pemohon')->orderby('created_at', 'asc')->first();
+            $tgl_awal = Carbon::parse($tgl_awalnya->created_at->format('m/d/Y'))->format('d F Y');
+        }
+        if ($tgl_akhir == ' 23:59:59') {
+            $tgl_akhirnya = Aspirasi::with('pemohon')->orderby('created_at', 'desc')->first();
+            $tgl_akhir = Carbon::parse($tgl_akhirnya->created_at->format('m/d/Y'))->format('d F Y');
+        }
+        
+        $dataaspirasi = $datanya->get();
         $tgl_awal = Carbon::parse($tgl_awal)->format('d F Y');
         $tgl_akhir = Carbon::parse($tgl_akhir)->format('d F Y');
         $aspirasipdf = PDF::loadView('aspirasi.laporan-PDFaspirasi', ['dataaspirasi' => $dataaspirasi, 'date' => $date, 'tgl_awal' => $tgl_awal, 'tgl_akhir' => $tgl_akhir]);
