@@ -64,50 +64,10 @@ class AspirasiController extends Controller
 
         $totalaspirasi = $datanya->count();
 
-        $dataaspirasi = $datanya->paginate(5);
+        $dataaspirasi = $datanya->paginate(15);
 
         return view('aspirasi.index', compact(['dataaspirasi', 'tgl_awal', 'tgl_akhir', 'totalaspirasi']));
     }
-
-    public function filterAspirasi(Request $request)
-    {
-        //Menghitung jumlah data aspirasi sesuai role user 
-            if(Auth::guard('pegawai')->user()->level == "Admin")
-            {
-                $totalaspirasi = Aspirasi::all()->count();
-            }
-            else
-            {  
-                $totalaspirasi = Aspirasi::where(['status' => 'Aktif'])->count();
-            }
-
-        //menampilkan filter data aspirasi
-        $tgl_awal =$request->tgl_awal . ' '.'00:00:00';
-        $tgl_akhir =$request->tgl_akhir . ' '.'23:59:59';
-        
-        
-       
-            if(Auth::guard('pegawai')->user()->level == "Admin")
-            {
-                //tampil semua status
-                $dataaspirasi = Aspirasi::whereBetween('created_at',[$tgl_awal, $tgl_akhir])->paginate(5);
-                
-               
-            }
-            else
-            {
-                //tampil filter HANYA data status yg aktif
-                $dataaspirasi = Aspirasi::whereBetween('created_at',[$tgl_awal, $tgl_akhir])->where(['status' => 'Aktif'])->paginate(5);
-                
-            }
-
-            // dd($tgl_awal);
-        
-        return view('aspirasi.index', compact(['dataaspirasi', 'tgl_awal', 'tgl_akhir', 'totalaspirasi']));
-    }
-
-
-    
 
 
     public function edit_StatusAspirasi(Request $request, $dataaspirasi)
@@ -143,6 +103,37 @@ class AspirasiController extends Controller
 
 
 //----GAJADI DIPAKE HALAMANNYA INI--------------
+    public function filterAspirasi(Request $request)
+    {
+        //Menghitung jumlah data aspirasi sesuai role user 
+            if(Auth::guard('pegawai')->user()->level == "Admin")
+            {
+                $totalaspirasi = Aspirasi::all()->count();
+            }
+            else
+            {  
+                $totalaspirasi = Aspirasi::where(['status' => 'Aktif'])->count();
+            }
+
+        //menampilkan filter data aspirasi
+        $tgl_awal =$request->tgl_awal . ' '.'00:00:00';
+        $tgl_akhir =$request->tgl_akhir . ' '.'23:59:59';
+        
+            if(Auth::guard('pegawai')->user()->level == "Admin")
+            {
+                //tampil semua status
+                $dataaspirasi = Aspirasi::whereBetween('created_at',[$tgl_awal, $tgl_akhir])->paginate(5);
+            }
+            else
+            {
+                //tampil filter HANYA data status yg aktif
+                $dataaspirasi = Aspirasi::whereBetween('created_at',[$tgl_awal, $tgl_akhir])->where(['status' => 'Aktif'])->paginate(5);
+            }
+            // dd($tgl_awal);
+        
+        return view('aspirasi.index', compact(['dataaspirasi', 'tgl_awal', 'tgl_akhir', 'totalaspirasi']));
+    }
+
 
     // akses ADMIN SAJA CETAK LAPORAN ASPIRASI --------
     public function indexcetakAspirasi()

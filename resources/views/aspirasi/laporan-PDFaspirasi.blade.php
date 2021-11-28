@@ -45,9 +45,10 @@
     <div style="text-align:center;">
         <h4>DATA LAPORAN ASPIRASI PEMOHON<br> 
         DINAS PENANAMAN MODAL DAN PELAYANAN TERPADU SATU PINTU <br>
-        KABUPATEN BADUNG
+        KABUPATEN BADUNG<br>
+        Periode {{ $tgl_awal }} - {{ $tgl_akhir }}
         </h4>
-        <h3>{{ $tgl_awal }} sampai {{ $tgl_akhir }}</h3>
+        
     </div>
 
     <table class="tabelasp">
