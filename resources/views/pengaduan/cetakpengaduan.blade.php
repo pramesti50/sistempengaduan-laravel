@@ -165,7 +165,7 @@
                                 <tbody>
                                     @foreach( $cetakTglPengaduan as $semuaPengaduan )
                                         <tr>
-                                            <td scope="row" style="text-align:center;" width="20px">{{ $loop->iteration }}.</td>
+                                            <td scope="row" style="text-align:center;" width="20px">{{ ($cetakTglPengaduan ->currentpage()-1) * $cetakTglPengaduan ->perpage() + $loop->index + 1 }}.</td>
                                             <td style="text-align:center;" width="100px">{{ \Carbon\Carbon::parse($semuaPengaduan->tgl_pengaduan)->format('d/m/Y') }}</td>
                                             <td>{{ $semuaPengaduan->pemohon->nama }}</td>
                                             <td>{{ $semuaPengaduan->kategori }}</td>

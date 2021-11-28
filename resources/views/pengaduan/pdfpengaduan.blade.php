@@ -66,11 +66,11 @@
         @foreach( $cetakTglPengaduan as $semuaPengaduan )
             <tr>
                 <td scope="row" style="text-align:center;" width="20px">{{ $loop->iteration }}.</td>
-                <td width="80px" style="text-align:center;">{{ \Carbon\Carbon::parse($semuaPengaduan->tgl_pengaduan)->format('d M Y') }}</td>
+                <td width="85px" style="text-align:center;">{{ \Carbon\Carbon::parse($semuaPengaduan->tgl_pengaduan)->format('d/m/Y') }}</td>
                 <td width="90px">{{ $semuaPengaduan->pemohon->nama }}</td>
                 <td width="150px">{{ $semuaPengaduan->kategori }}</td>
                 <td width="200px">{{ $semuaPengaduan->judul }}</td>
-                <td width="80px" style="text-align:center;">{{ $semuaPengaduan->tgl_verifikasi ? \Carbon\Carbon::parse($semuaPengaduan->tgl_verifikasi)->format('d M Y') : null }}</td>
+                <td width="85px" style="text-align:center;">{{ $semuaPengaduan->tgl_verifikasi ? \Carbon\Carbon::parse($semuaPengaduan->tgl_verifikasi)->format('d/m/Y') : null }}</td>
             </tr>
         </tbody>
         @endforeach
