@@ -43,9 +43,10 @@
 <body>
     <img src="{{ public_path('template/logodpmptsp.png')}}" class="logo">
     <div style="text-align:center;">
-        <h4>DATA LAPORAN PENGADUAN<br> 
+        <h4>LAPORAN PENGADUAN<br> 
         DINAS PENANAMAN MODAL DAN PELAYANAN TERPADU SATU PINTU <br>
-        KABUPATEN BADUNG
+        KABUPATEN BADUNG<br>
+        Periode {{ $tgl_awalpengaduan }} - {{ $tgl_akhirpengaduan }}
         </h4>
     </div>
 

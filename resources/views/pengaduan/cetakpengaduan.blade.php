@@ -262,7 +262,7 @@
                                                                 <p type="text" class="form-control-plaintext" id="tanggapan" name="tanggapan" style="text-align:justify;">{{ $semuaPengaduan->tanggapan }}</p>
                                                             </div>
             
-                                                            <div class="form-group col-md-6 col-12">
+                                                            <div class="form-group">
                                                                 <label for="pegawai_id" style="color:#403e3e; font-weight:bold;">Diverifikasi oleh</label>
                                                                 @if (empty($semuaPengaduan->pegawai))
                                                                     <p type="text" class="form-control-plaintext" id="pegawai_id" name="pegawai_id">
@@ -271,11 +271,12 @@
                                                                 @else
                                                                     <p type="text" class="form-control-plaintext" id="pegawai_id" name="pegawai_id">
                                                                         {{ $semuaPengaduan->pegawai->nama }} | <b>Username: {{ $semuaPengaduan->pegawai->username }}</b>
+                                    
                                                                     </p>
                                                                 @endif
                                                             </div>
             
-                                                            <div class="form-group col-md-6 col-12">
+                                                            <div class="form-group">
                                                                 <label for="status" style="color:#000;">Status</label>
                                                                 <p type="text" class="form-control-plaintext" id="status" name="status">{{ $semuaPengaduan->status }}</p>
                                                             </div> 

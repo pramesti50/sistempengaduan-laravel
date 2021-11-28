@@ -108,7 +108,7 @@ Route::group(['middleware' => ['auth:pegawai','aksesverifikator', 'revalidate']]
 
 
 
-    //Cetak dan FIlter Data Aspirasi GAJADI DIPKE HALAMAN INI
+    //Cetak dan Filter Data Aspirasi GAJADI DIPKE HALAMAN INI
     // Route::get('/aspirasi/cetakaspirasi', 'App\Http\Controllers\AspirasiController@indexcetakAspirasi');
     // Route::post('/aspirasi/cetakaspirasi', 'App\Http\Controllers\AspirasiController@cariDataCetak')->name('cariDataAspirasi');
     //Route::get('/aspirasi/laporan-PDFaspirasi/{tgl_awal}/{tgl_akhir}', 'App\Http\Controllers\AspirasiController@pdfAspirasi')->name('pdfAspirasi');

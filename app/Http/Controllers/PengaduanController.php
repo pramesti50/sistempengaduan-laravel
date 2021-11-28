@@ -225,7 +225,7 @@ class PengaduanController extends Controller
         $tgl_akhirpengaduan = $request->tgl_akhirpengaduan;
 
         if (!empty($tgl_awalpengaduan) && !empty($tgl_akhirpengaduan)) {
-            $cetakTglPengaduan = Pengaduan::with('pemohon', 'pegawai')->whereBetween('tgl_pengaduan',[$tgl_awalpengaduan, $tgl_akhirpengaduan])->paginate(5);;
+            $cetakTglPengaduan = Pengaduan::with('pemohon', 'pegawai')->whereBetween('tgl_pengaduan',[$tgl_awalpengaduan, $tgl_akhirpengaduan])->paginate(20);;
         }
 
         return view('pengaduan.cetakpengaduan', compact(['cetakTglPengaduan', 'tgl_awalpengaduan', 'tgl_akhirpengaduan', 'blmproses', 'sedangproses', 'selesai', 'aktif','tdkaktif','total']));
@@ -255,7 +255,10 @@ class PengaduanController extends Controller
         $date = Carbon::now()->toDateString();
         
         $cetakTglPengaduan = Pengaduan::whereBetween('tgl_pengaduan',[$tgl_awalpengaduan, $tgl_akhirpengaduan])->get();
-        $pengaduanpdf = PDF::loadView('pengaduan.pdfpengaduan', ['cetakTglPengaduan' => $cetakTglPengaduan]);
+        $tgl_awalpengaduan = Carbon::parse($tgl_awalpengaduan)->format('d F Y');
+        $tgl_akhirpengaduan = Carbon::parse($tgl_akhirpengaduan)->format('d F Y');
+        
+        $pengaduanpdf = PDF::loadView('pengaduan.pdfpengaduan', ['cetakTglPengaduan' => $cetakTglPengaduan, 'tgl_awalpengaduan' => $tgl_awalpengaduan, 'tgl_akhirpengaduan' => $tgl_akhirpengaduan]);
         return $pengaduanpdf->download('laporan-pengaduan.pdf');
     }
 
