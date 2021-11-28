@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use \Carbon\Carbon;
 use App\Models\Aspirasi;
-use Barryvdh\DomPDF\PDF;
+use PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -48,41 +48,25 @@ class AspirasiController extends Controller
 // -------AKSES PEGAWAI Admin dan Verifikator ----------------
     public function indexDataAspirasi(Request $request)
     {
-    
-        //Menghitung jumlah data aspirasi sesuai role user 
-            if(Auth::guard('pegawai')->user()->level == "Admin")
-            {
-                $totalaspirasi = Aspirasi::all()->count();
-            }
-            else
-            {  
-                $totalaspirasi = Aspirasi::where(['status' => 'Aktif'])->count();
-            }
-
-
-    //menampilkan data aspirasi
+    //simple
         $tgl_awal =$request->tgl_awal . ' '.'00:00:00';
         $tgl_akhir =$request->tgl_akhir . ' '.'23:59:59';
+        
+        $datanya = Aspirasi::with('pemohon');
 
-            if (empty($request->tgl_awal) && empty($request->tgl_akhir))
-            {
-                $dataaspirasi = Aspirasi::latest()->paginate(5);
-            }
-            else if(Auth::guard('pegawai')->user()->level == "Admin")
-            {
-                //tampil semua status
-                $dataaspirasi = Aspirasi::whereBetween('created_at',[$tgl_awal, $tgl_akhir])->paginate(5);
-                
-            
-            }
-            else
-            {
-                //tampil filter HANYA data status yg aktif
-                $dataaspirasi = Aspirasi::whereBetween('created_at',[$tgl_awal, $tgl_akhir])->where(['status' => 'Aktif'])->paginate(5);
-                
-            }
+        if(Auth::guard('pegawai')->user()->level == "Verifikator") {
+            $datanya->where('status', '=', 'Aktif');
+        }
 
-            return view('aspirasi.index', compact(['dataaspirasi', 'tgl_awal', 'tgl_akhir', 'totalaspirasi']));
+        if (!empty($request->tgl_awal) && !empty($request->tgl_akhir)) {
+            $datanya->whereBetween('created_at',[$tgl_awal, $tgl_akhir]);
+        }
+
+        $totalaspirasi = $datanya->count();
+
+        $dataaspirasi = $datanya->paginate(5);
+
+        return view('aspirasi.index', compact(['dataaspirasi', 'tgl_awal', 'tgl_akhir', 'totalaspirasi']));
     }
 
     public function filterAspirasi(Request $request)
