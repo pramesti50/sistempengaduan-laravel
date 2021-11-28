@@ -47,7 +47,7 @@
         DINAS PENANAMAN MODAL DAN PELAYANAN TERPADU SATU PINTU <br>
         KABUPATEN BADUNG
         </h4>
-        <h3>{{ $tgl_awalnya }} sampai {{ $tgl_akhirnya }}</h3>
+        <h3>{{ $tgl_awal }} sampai {{ $tgl_akhir }}</h3>
     </div>
 
     <table class="tabelasp">

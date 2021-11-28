@@ -128,9 +128,9 @@ class AspirasiController extends Controller
         $date = Carbon::now()->toDateString();
 
         $dataaspirasi = Aspirasi::whereBetween('created_at',[$tgl_awal, $tgl_akhir])->get();
-        $tgl_awalnya = Carbon::parse($tgl_awal)->format('d F Y');
-        $tgl_akhirnya = Carbon::parse($tgl_akhir)->format('d F Y');
-        $aspirasipdf = PDF::loadView('aspirasi.laporan-PDFaspirasi', ['dataaspirasi' => $dataaspirasi, 'date' => $date, 'tgl_awalnya' => $tgl_awalnya, 'tgl_akhirnya' => $tgl_akhirnya]);
+        $tgl_awal = Carbon::parse($tgl_awal)->format('d F Y');
+        $tgl_akhir = Carbon::parse($tgl_akhir)->format('d F Y');
+        $aspirasipdf = PDF::loadView('aspirasi.laporan-PDFaspirasi', ['dataaspirasi' => $dataaspirasi, 'date' => $date, 'tgl_awal' => $tgl_awal, 'tgl_akhir' => $tgl_akhir]);
         return $aspirasipdf->download('laporan-aspirasi.pdf');
     }
 // END akses ADMIN SAJA CETAK LAPORAN ASPIRASI --------
