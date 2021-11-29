@@ -142,42 +142,21 @@ class PengaduanController extends Controller
 
 
 //====SELESAI PROSES============SELESAI PROSES==========SELESAI PROSES===========================  
-
     public function indexSelesai(Request $request)
     {
-        //TOMBOL INFO JUMLAH DATA PENGADUAN
-            $blmproses = Pengaduan::where('status', 'Belum Diproses')->count();
-            $sedangproses = Pengaduan::where([['status', '!=', 'Belum Diproses'], ['status', '!=', 'Selesai'], ['status', '!=', 'Tidak Aktif']])->count();
-            $selesai = Pengaduan::where('status', 'Selesai')->count();
-            $aktif = Pengaduan::where([['status', '!=', 'Tidak Aktif']])->count();
-            $tdkaktif = Pengaduan::where('status', 'Tidak Aktif')->count();
-            $total = Pengaduan::all()->count();
-        //END
+        $selesai = Pengaduan::where('status', 'Selesai')->count(); 
         
-        $pengaduanMasuk = Pengaduan::where('status', ['Selesai'] )->orderby('updated_at', 'desc')->paginate(10);
-        return view ('pengaduan.selesai', compact(['pengaduanMasuk', 'selesai', 'blmproses', 'sedangproses', 'aktif','tdkaktif','total']));
-    }
-
-    
-    public function cariSelesai(Request $request)
-    {
-        //TOMBOL INFO JUMLAH DATA PENGADUAN
-            $blmproses = Pengaduan::where('status', 'Belum Diproses')->count();
-            $sedangproses = Pengaduan::where([['status', '!=', 'Belum Diproses'], ['status', '!=', 'Selesai'], ['status', '!=', 'Tidak Aktif']])->count();
-            $selesai = Pengaduan::where('status', 'Selesai')->count();
-            $aktif = Pengaduan::where([['status', '!=', 'Tidak Aktif']])->count();
-            $tdkaktif = Pengaduan::where('status', 'Tidak Aktif')->count();
-            $total = Pengaduan::all()->count();
-        //END
-
-
         //cari berdasarkan tanggal verifikasi selesai
-            $awalselesai = $request->awalselesai;
-            $akhirselesai = $request->akhirselesai;
-         
-        $pengaduanMasuk = Pengaduan::whereBetween('tgl_verifikasi', [$awalselesai, $akhirselesai])->where(['status' => 'Selesai'])->latest('updated_at')->paginate(10);
-        return view('pengaduan.selesai', ['pengaduanMasuk' => $pengaduanMasuk, 'awalselesai' => $awalselesai, 
-            'akhirselesai' => $akhirselesai, 'selesai' => $selesai, 'blmproses' => $blmproses, 'sedangproses' => $sedangproses, 'aktif' => $aktif,'tdkaktif' => $tdkaktif,'total' => $total]);
+        $awalselesai = $request->awalselesai;
+        $akhirselesai = $request->akhirselesai;
+     
+        $aduanlesai = Pengaduan::with('pegawai');
+        if (!empty($request->awalselesai) && !empty($request->akhirselesai)) {
+            $aduanlesai->whereBetween('tgl_verifikasi',[$awalselesai, $akhirselesai])->where(['status' => 'Selesai']);
+        }
+
+        $pengaduanMasuk = $aduanlesai->latest('tgl_verifikasi')->paginate(10);       
+        return view('pengaduan.selesai', ['pengaduanMasuk' => $pengaduanMasuk, 'awalselesai' => $awalselesai, 'akhirselesai' => $akhirselesai, 'selesai' => $selesai]);
     }
 
 
@@ -231,24 +210,6 @@ class PengaduanController extends Controller
         return view('pengaduan.cetakpengaduan', compact(['cetakTglPengaduan', 'tgl_awalpengaduan', 'tgl_akhirpengaduan', 'blmproses', 'sedangproses', 'selesai', 'aktif','tdkaktif','total']));
     }
 
-    // public function cariCetakPengaduanTanggal (Request $request)
-    // {
-    //     $blmproses = Pengaduan::where('status', 'Belum Diproses')->count();
-    //     $sedangproses = Pengaduan::where([['status', '!=', 'Belum Diproses'], ['status', '!=', 'Selesai'], ['status', '!=', 'Tidak Aktif']])->count();
-    //     $selesai = Pengaduan::where('status', 'Selesai')->count();
-    //     $aktif = Pengaduan::where([['status', '!=', 'Tidak Aktif']])->count();
-    //     $tdkaktif = Pengaduan::where('status', 'Tidak Aktif')->count();
-    //     $total = Pengaduan::all()->count();
-
-    //     //filter tgl
-    //         $tgl_awalpengaduan = $request->tgl_awalpengaduan;
-    //         $tgl_akhirpengaduan = $request->tgl_akhirpengaduan;
-
-    //     $cetakTglPengaduan = Pengaduan::whereBetween('tgl_pengaduan',[$tgl_awalpengaduan, $tgl_akhirpengaduan])->get();
-
-    //     return view('pengaduan.cetakpengaduan', ['cetakTglPengaduan' => $cetakTglPengaduan, 
-    //         'tgl_awalpengaduan' => $tgl_awalpengaduan, 'tgl_akhirpengaduan' => $tgl_akhirpengaduan, 'blmproses' => $blmproses, 'sedangproses' => $sedangproses, 'selesai' => $selesai, 'tdkaktif' => $tdkaktif, 'aktif' => $aktif,'total' => $total]);
-    // }
 
     public function cetakPdfPengaduan($tgl_awalpengaduan, $tgl_akhirpengaduan)
     {
@@ -265,13 +226,17 @@ class PengaduanController extends Controller
 
 
 //========== STATUS TIDAK AKTIF ==================================================
-    public function indexTidakAktif()
+    public function indexTidakAktif(Request $request)
     {
         $total_tdkaktif = Pengaduan::where(['status' => 'Tidak Aktif'])->count();
 
         $tdkaktif = Pengaduan::where('status',['Tidak Aktif'])->orderby('updated_at', 'desc')->paginate(10);
         return view('pengaduan.tidak-aktif', compact(['total_tdkaktif', 'tdkaktif']));
+        
+        
     }
+
+
 
     public function cariTidakAktif(Request $request)
     {

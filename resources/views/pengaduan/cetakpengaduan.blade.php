@@ -20,24 +20,25 @@
             <div class="card-body"> 
                 <form class="{{ route('indexCetakPengaduan') }}" method="GET">
                     <div class="row">
-                        <div class="col-sm-5 col-12">
+                        <div class="col-sm-4 col-12">
                             <div class="form-group">
                                 <label for="tgl_awalpengaduan">Dari Tanggal</label>
                                 <input type="date" id="tgl_awalpengaduan" name="tgl_awalpengaduan" class="form-control" value="{{ request()->input('tgl_awalpengaduan') }}">
                             </div>
                         </div>
                                 
-                        <div class="col-sm-5 col-12">
+                        <div class="col-sm-4 col-12">
                             <div class="form-group">
                                 <label for="tgl_akhirpengaduan">Sampai Tanggal</label>
                                 <input type="date" id="tgl_akhirpengaduan" name="tgl_akhirpengaduan" class="form-control" value="{{ request()->input('tgl_akhirpengaduan') }}">
                             </div>
                         </div>
 
-                        <div class="col-sm-2 col-12" style="margin-top:25px;">
+                        <div class="col-sm-4 col-12" style="margin-top:25px;">
                             <div class="btn-group mb-3 btn-group" role="group" aria-label="Basic example">
                                 <button type="submit" class="btn btn-primary btn-sm "><i class="bi bi-search"></i> Cari</button>
                                 <button type="button" class="btn btn-light-secondary btn-sm " data-bs-toggle="modal" data-bs-target="#infopengaduan"><i class="bi bi-info-circle"></i> Info</button>
+                                <a class="btn btn-primary btn-sm" href="{{ url('/pengaduan/cetakpengaduan') }}"><i class="bi bi-arrow-repeat"></i></a>
                             </div>
                         </div>
                     </div>
@@ -106,11 +107,11 @@
                         </tr>
                     </tbody>
                 </table>
-                @if(Auth::guard('pegawai')->user()->level == "Admin")
+                <!-- @if(Auth::guard('pegawai')->user()->level == "Admin")
                 <div class="mb-5">   
                     <a class="btn btn-outline-dark btn-sm" href="{{ url('/pengaduan/tidak-aktif') }}" type="button" style="float:right;">Pengaduan Non-Aktif</a>
                 </div>
-                @endif
+                @endif -->
             </div>
         </div>
     </div>
@@ -248,7 +249,7 @@
             
                                                                 <div class="form-group col-md-6 col-12">
                                                                     <label for="tgl_verifikasi" style="color:#000;">Tanggal Verifikasi</label>
-                                                                    <p class="form-control-plaintext" id="tgl_verifikasi" name="tgl_verifikasi" value="" readonly>{{ \Carbon\Carbon::parse($semuaPengaduan->tgl_verifikasi)->format('d M Y') }}</p>
+                                                                    <p class="form-control-plaintext" id="tgl_verifikasi" name="tgl_verifikasi" value="" readonly>{{ $semuaPengaduan->tgl_verifikasi ? \Carbon\Carbon::parse($semuaPengaduan->tgl_verifikasi)->format('d M Y') : null }}</p>
                                                                 </div>
             
                                                                 <div class="form-group col-md-6 col-12">

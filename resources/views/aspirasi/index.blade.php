@@ -15,37 +15,6 @@
       </div>
 
       <div class="card-body">
-        {{-- <form class="{{ route('filterAspirasi') }}" method="POST">
-          @csrf
-          <div class="row">
-            <div class="col-sm-4 col-12">
-              <div class="form-group">
-                <label for="tgl_awal">Dari Tanggal</label>
-                <input type="date" id="tgl_awal" name="tgl_awal" class="form-control">
-              </div>
-            </div>
-                      
-            <div class="col-sm-4 col-12">
-              <div class="form-group">
-                <label for="tgl_akhir">Sampai Tanggal</label>
-                <input type="date" id="tgl_akhir" name="tgl_akhir" class="form-control">
-              </div>
-            </div>
-
-            <div class="col-sm-4 col-12" style="margin-top:25px;">
-              <div class="btn-group mb-3 btn-group" role="group" aria-label="Basic example">
-                <button type="submit" class="btn btn-primary" style="font-size:14px;"><i class="bi bi-search"></i> Filter</button>
-                <a href="/aspirasi" type="button" class="btn btn-light-secondary" style="font-size:14px;"><i class="bi bi-arrow-repeat"></i> Refresh</a>
-                @if(auth('pegawai')->user()->level == "Admin")
-                  @if($dataaspirasi ?? '')
-                  <a href="{{ route('laporan_aspirasipdf', ['tgl_awal' => $tgl_awal, 'tgl_akhir' => $tgl_akhir ]) }}" 
-                    target="_blank" class="btn btn-primary" style="font-size:14px;"><i class="fa fa-print fa-3px"></i> Print</a>
-                  @endif
-                  @endif
-              </div>
-            </div>
-          </div>
-        </form> --}}
         <form class="{{ route('indexAspirasi') }}" method="GET">
           <div class="row">
             <div class="col-sm-4 col-12">
@@ -71,7 +40,7 @@
                   <a href="{{ route('laporan_aspirasipdf', ['tgl_awal' => $tgl_awal, 'tgl_akhir' => $tgl_akhir ]) }}" 
                     target="_blank" class="btn btn-primary" style="font-size:14px;"><i class="fa fa-print fa-3px"></i> Print</a>
                   @endif
-                  @endif
+                @endif
               </div>
             </div>
           </div>

@@ -7,7 +7,7 @@
   <div class="card"> 
     <div class="card-body">
       <form class="{{ route('caritdkaktif') }}" method="POST">
-        @csrf
+        
         <div class="row">
         <div class="col-12">
           <h6>Filter Berdasarkan Tanggal Verifikasi</h6>
@@ -16,14 +16,14 @@
           <div class="col-md-6 col-12">
             <div class="form-group">
               <label for="awal_tdkaktif">Dari Tanggal</label>
-              <input type="date" id="awal_tdkaktif" name="awal_tdkaktif" class="form-control">
+              <input type="date" id="awal_tdkaktif" name="awal_tdkaktif" class="form-control" value="{{ request()->input('awal_tdkaktif') }}">
             </div>
           </div>
                         
           <div class="col-md-6 col-12">
             <div class="form-group">
               <label for="akhir_tdkaktif">Sampai Tanggal</label>
-              <input type="date" id="akhir_tdkaktif" name="akhir_tdkaktif" class="form-control">
+              <input type="date" id="akhir_tdkaktif" name="akhir_tdkaktif" class="form-control" value="{{ request()->input('akhir_tdkaktif') }}">
             </div>
           </div>
 
@@ -33,7 +33,7 @@
 
           <div class="col-md-6 col-12 d-flex justify-content-end">
             <a class="btn btn-light-secondary btn-sm me-1 mb-1" href="{{ url('/pengaduan/tidak-aktif') }}"><i class="bi bi-arrow-repeat"></i></a><pre></pre>
-            <button type="submit" class="btn btn-primary btn-sm me-1 mb-1">Cari Pengaduan</button>
+            <button type="submit" class="btn btn-secondary btn-sm me-1 mb-1">Cari Pengaduan</button>
           </div>
         </div>
       </form>
@@ -144,7 +144,7 @@
 
     <!-- PAGINATION -->
       <div class="d-flex justify-content-end" style="margin-top:13px; margin-right:20px;">
-        {{ $tdkaktif->links() }}
+        {{ $tdkaktif->appends(request()->input())->links() }}
       </div>
 
 </section>

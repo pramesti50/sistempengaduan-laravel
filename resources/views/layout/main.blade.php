@@ -83,11 +83,14 @@
                                 </li>
                                 @if(auth('pegawai')->user()->level == "Admin")
                                 <li class="submenu-item ">
-                                    <a href="{{ url('/pengaduan/cetakpengaduan') }}">Cetak Data Laporan Pengaduan</a>
+                                    <a href="{{ url('/pengaduan/tidak-aktif') }}">Pengaduan Tidak Aktif</a>
+                                </li>
+                                <li class="submenu-item ">
+                                    <a href="{{ url('/pengaduan/cetakpengaduan') }}">Cetak Laporan Pengaduan</a>
                                 </li>
                                 @else
                                 <li class="submenu-item ">
-                                    <a href="{{ url('/pengaduan/cetakpengaduan') }}">Filter Data Laporan Pengaduan</a>
+                                    <a href="{{ url('/pengaduan/cetakpengaduan') }}">Filter Laporan Pengaduan</a>
                                 </li>
                                 @endif
                             </ul>

@@ -6,8 +6,7 @@
 <section class="section">
   <div class="card"> 
     <div class="card-body">
-      <form class="{{ route('cariselesai') }}" method="POST">
-        @csrf
+      <form class="{{ route('indexselesai') }}" method="GET">
         <div class="row">
         <div class="col-md-6 col-12">
           <h6>Filter Berdasarkan Tanggal Verifikasi</h6>
@@ -15,8 +14,6 @@
         
         <div class="col-md-6 col-12 justify-content-end">
           <div class="btn-group mb-3 btn-group" role="group" aria-label="Basic example" style="float:right;">
-              <!-- <button type="button" class="btn btn-light-secondary btn-sm me-1 mb-1" data-bs-toggle="modal" data-bs-target="#infopengaduan">Info</button> -->
-              <!-- <a class="btn btn-light-secondary btn-sm me-1 mb-1" href="{{ url('/pengaduan/selesai') }}">Refresh</a> -->
               <a class="btn btn-light-secondary btn-sm me-1 mb-1" href="{{ url('/pengaduan/sedang-diproses') }}">Sedang Proses</a>
           </div>
         </div>
@@ -24,14 +21,14 @@
           <div class="col-md-6 col-12">
             <div class="form-group">
               <label for="awalselesai">Dari Tanggal</label>
-              <input type="date" id="awalselesai" name="awalselesai" class="form-control">
+              <input type="date" id="awalselesai" name="awalselesai" class="form-control" value="{{ request()->input('awalselesai') }}">
             </div>
           </div>
                         
           <div class="col-md-6 col-12">
             <div class="form-group">
               <label for="akhirselesai">Sampai Tanggal</label>
-              <input type="date" id="akhirselesai" name="akhirselesai" class="form-control">
+              <input type="date" id="akhirselesai" name="akhirselesai" class="form-control" value="{{ request()->input('akhirselesai') }}">
             </div>
           </div>
 
@@ -50,73 +47,7 @@
 </div>
 </section>
 
-<!-- GAJADI PAKE TOMBOL INFO JUMLAH2 DATA PENGADUANNYA, KARENA SUDAH DI HALAMAN CETAK ADA -->
-<!--content Modal -->
-<div class="modal fade" id="infopengaduan" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal" role="document">
-          <div class="modal-content">
-            <div class="modal-header bg-primary">
-              <h5 class="modal-title white">Rincian Info Data Pengaduan</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                    <i data-feather="x"></i>
-                </button>
-            </div>
-                      
-              <!-- isi modal -->
-                <div class="modal-body">
-                    <table class="table table-hover table">
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th style="text-align:center;">Rincian Data</th>
-                                <th style="text-align:center;">Jumlah</th>
-                            </tr>
-                        </thead>
 
-                        <tbody>
-                            <tr>
-                                <td>1.</td>
-                                <td>Pengaduan Belum Diproses</td>
-                                <td style="text-align:center;">{{ $blmproses }}</td>
-                            </tr>
-                            <tr>
-                                <td>2.</td>
-                                <td>Pengaduan Sedang Diproses</td>
-                                <td style="text-align:center;">{{ $sedangproses }}</td>
-                            </tr>
-                            <tr>
-                                <td>3.</td>
-                                <td>Pengaduan Selesai</td>
-                                <td style="text-align:center;">{{ $selesai }}</td>
-                            </tr>
-    
-                            <tr>
-                                <!-- <td>4.</td> -->
-                                <td colspan="2">Total Pengaduan Aktif</td>
-                                <td style="text-align:center;">{{ $aktif }}</td>
-                            </tr>
-                            <tr>
-                                <!-- <td>5.</td> -->
-                                <td colspan="2">Total Pengaduan Tidak Aktif</td>
-                                <td style="text-align:center;">{{ $tdkaktif }}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">Total Semua Data Pengaduan</td>
-                                <td style="text-align:center;">{{ $total }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    @if(Auth::guard('pegawai')->user()->level == "Admin")
-                    <div class="mb-5">   
-                        <a class="btn btn-outline-dark btn-sm" href="{{ url('/pengaduan/tidak-aktif') }}" type="button" style="float:right;">Data Pengaduan Tidak Aktif</a>
-                    </div>
-                    @endif
-                </div>
-          </div>
-        </div>
-      </div>
-    <!-- end modal -- GAJADI PAKE TOMBOL INFO JUMLAH2 DATA PENGADUANNYA -->
 
 
 
@@ -217,7 +148,7 @@
 
     <!-- PAGINATION -->
       <div class="d-flex justify-content-end" style="margin-top:13px; margin-right:20px;">
-        {{ $pengaduanMasuk->links() }}
+        {{ $pengaduanMasuk->appends(request()->input())->links() }}
       </div>
 
 </section>

@@ -90,20 +90,17 @@ Route::group(['middleware' => ['auth:pegawai','aksesverifikator', 'revalidate']]
         Route::patch('/pengaduan/detail-sedang-diproses/{sedangproses}', 'App\Http\Controllers\PengaduanController@verifikasiPengaduan');
         
         //selesai
-        Route::get('/pengaduan/selesai', 'App\Http\Controllers\PengaduanController@indexSelesai');
-        Route::post('/pengaduan/selesai', 'App\Http\Controllers\PengaduanController@cariSelesai')->name('cariselesai');
+        Route::get('/pengaduan/selesai', 'App\Http\Controllers\PengaduanController@indexSelesai')->name('indexselesai');
         Route::get('/pengaduan/detail-selesai/{id}', 'App\Http\Controllers\PengaduanController@indexDetailSelesai');
         Route::patch('/pengaduan/detail-selesai/{selesai}', 'App\Http\Controllers\PengaduanController@editTanggapanSelesai');
 
         //Filter Data Pengaduan
         Route::get('/pengaduan/cetakpengaduan', 'App\Http\Controllers\PengaduanController@indexCetakPengaduan')->name('indexCetakPengaduan');
-        // Route::post('/pengaduan/cetakpengaduan', 'App\Http\Controllers\PengaduanController@cariCetakPengaduanTanggal')->name('caripengaduantgl');
+        
 
     //Kelola Data Aspirasi
     Route::get('/aspirasi', 'App\Http\Controllers\AspirasiController@indexDataAspirasi')->name('indexAspirasi');
     Route::put('/aspirasi/{id}', 'App\Http\Controllers\AspirasiController@edit_StatusAspirasi');
-    // Route::post('/aspirasi', 'App\Http\Controllers\AspirasiController@filterAspirasi')->name('filterAspirasi');
-
     Route::get('/aspirasi/laporan-PDFaspirasi/{tgl_awal}/{tgl_akhir}', 'App\Http\Controllers\AspirasiController@cetakpdfAspirasi')->name('laporan_aspirasipdf');
 
 

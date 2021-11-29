@@ -122,10 +122,11 @@
 @endforeach
 
     <!-- PAGINATION -->
-    
+    @if($pengaduanMasuk ?? '')
       <div class="d-flex justify-content-end" style="margin-top:13px; margin-right:20px;">
-        {{ $pengaduanMasuk->links() }}
+        {{ $pengaduanMasuk->appends(request()->input())->links() }}
       </div>
+    @endif
   
 
 </section>
