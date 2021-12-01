@@ -14,7 +14,7 @@
         
         <div class="col-md-6 col-12 justify-content-end">
           <div class="btn-group mb-3 btn-group" role="group" aria-label="Basic example" style="float:right;">
-              <a class="btn btn-light-secondary btn-sm me-1 mb-1" href="{{ url('/pengaduan/sedang-diproses') }}">Sedang Proses</a>
+              <a class="btn btn-light-secondary btn-sm me-1 mb-1" href="{{ url('/pengaduan/sedang-diproses') }}">Sedang Diproses</a>
           </div>
         </div>
 

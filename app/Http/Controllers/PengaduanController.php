@@ -152,10 +152,10 @@ class PengaduanController extends Controller
      
         $aduanlesai = Pengaduan::with('pegawai');
         if (!empty($request->awalselesai) && !empty($request->akhirselesai)) {
-            $aduanlesai->whereBetween('tgl_verifikasi',[$awalselesai, $akhirselesai])->where(['status' => 'Selesai']);
+            $aduanlesai->whereBetween('tgl_verifikasi',[$awalselesai, $akhirselesai]);
         }
 
-        $pengaduanMasuk = $aduanlesai->latest('tgl_verifikasi')->paginate(10);       
+        $pengaduanMasuk = $aduanlesai->latest('updated_at')->where(['status' => 'Selesai'])->paginate(10);       
         return view('pengaduan.selesai', ['pengaduanMasuk' => $pengaduanMasuk, 'awalselesai' => $awalselesai, 'akhirselesai' => $akhirselesai, 'selesai' => $selesai]);
     }
 
