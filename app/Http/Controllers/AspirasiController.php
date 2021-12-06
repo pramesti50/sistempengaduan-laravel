@@ -38,10 +38,19 @@ class AspirasiController extends Controller
         $id = $request->session()->get('idlogin');
         $dataaspirasi = Aspirasi::where(['pemohon_id' => $id, 'status' => 'Aktif'])->orderBy('id', 'desc')->paginate(10);
         
-        return view('pemohon.riwayat-aspirasi', compact('dataaspirasi'));
+        //tombol modal detail aspirasi
+        $detail = Aspirasi::where('id', $id)->first();
+        return view('pemohon.riwayat-aspirasi', compact(['dataaspirasi', 'detail']));
     }
+    
+    
+    
 // --------end ASPIRASI AKSES PEMOHON ------------------------------------------------
 
+/*
+     $riwayat = Pengaduan::where('id', $id)->first();    
+    return view('pemohon.detail-riwayatpengaduan', compact('riwayat'));
+*/
 
 
 
