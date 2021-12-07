@@ -73,8 +73,8 @@ class AspirasiController extends Controller
 
         $totalaspirasi = $datanya->count();
 
-        $dataaspirasi = $datanya->paginate(15);
-
+        $dataaspirasi = $datanya->orderBy('id', 'desc')->paginate(15);
+        
         return view('aspirasi.index', compact(['dataaspirasi', 'tgl_awal', 'tgl_akhir', 'totalaspirasi']));
     }
 

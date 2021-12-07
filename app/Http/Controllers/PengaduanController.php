@@ -70,7 +70,7 @@ class PengaduanController extends Controller
     public function indexBelumProses()
     {
         $blmproses = Pengaduan::where(['status' => 'Belum Diproses'])->count();
-        $pengaduanMasuk = Pengaduan::where('status', ['Belum Diproses'])->paginate(10);
+        $pengaduanMasuk = Pengaduan::where('status', ['Belum Diproses'])->paginate(15);
         return view ('pengaduan.belum-proses', compact('pengaduanMasuk', 'blmproses'));
     }
 
@@ -97,7 +97,7 @@ class PengaduanController extends Controller
         $sedangproses = Pengaduan::where([['status', '!=', 'Belum Diproses'], ['status', '!=', 'Selesai'], ['status', '!=', 'Tidak Aktif']])->count();
         if($request->has('caristatus'))
         {
-            $pengaduanMasuk = Pengaduan::where('status', 'LIKE','%'.$request->caristatus.'%')->paginate(10);
+            $pengaduanMasuk = Pengaduan::where('status', 'LIKE','%'.$request->caristatus.'%')->paginate(15);
         }
         else 
         {
@@ -152,10 +152,10 @@ class PengaduanController extends Controller
      
         $aduanlesai = Pengaduan::with('pegawai');
         if (!empty($request->awalselesai) && !empty($request->akhirselesai)) {
-            $aduanlesai->whereBetween('tgl_verifikasi',[$awalselesai, $akhirselesai]);
+            $aduanlesai->whereBetween('tgl_verifikasi',[$awalselesai, $akhirselesai])->orderby('id','asc');
         }
 
-        $pengaduanMasuk = $aduanlesai->latest('updated_at')->where(['status' => 'Selesai'])->paginate(10);       
+        $pengaduanMasuk = $aduanlesai->latest('updated_at')->where(['status' => 'Selesai'])->paginate(15);       
         return view('pengaduan.selesai', ['pengaduanMasuk' => $pengaduanMasuk, 'awalselesai' => $awalselesai, 'akhirselesai' => $akhirselesai, 'selesai' => $selesai]);
     }
 

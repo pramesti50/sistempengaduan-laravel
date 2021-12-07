@@ -66,10 +66,10 @@
         @foreach( $dataaspirasi as $semuaaspirasi )
             <tr>
                 <td scope="row" style="text-align:center;"width="20px">{{ $loop->iteration }}.</td>
-                <td >{{ $semuaaspirasi->judul }}</td>
-                <td >{{ $semuaaspirasi->deskripsi }}</td>
+                <td width="120px">{{ $semuaaspirasi->judul }}</td>
+                <td width="200px">{{ $semuaaspirasi->deskripsi }}</td>
                 <td width="100px">{{ $semuaaspirasi->pemohon->nama }}</td>
-                <td style="text-align:center;" width="100px">{{ $semuaaspirasi->created_at->format('d M Y') }}</td>
+                <td style="text-align:center;" width="80px">{{ $semuaaspirasi->created_at->format('d M Y') }}</td>
             </tr>
         </tbody>
         @endforeach

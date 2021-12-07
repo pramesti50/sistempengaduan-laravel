@@ -75,7 +75,7 @@
 
      
           <div class="table-responsive mt-3">
-            <table class="table table-striped table-bordered">
+            <table class="table table-striped table-hover table-bordered">
               <thead>
                 <tr style="text-align:center;">
                   <th>No.</th>

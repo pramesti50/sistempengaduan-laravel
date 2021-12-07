@@ -131,7 +131,7 @@
                     </div>
                           
                     <div class="col-sm-12 " >
-                        <a href="/pengaduan/detail-tidakaktif/{{ $hide->id }}" class="btn btn-outline-primary text-black btn-sm">Detail</a>
+                        <a href="/pengaduan/detail-tidakaktif/{{ $hide->id }}" class="btn btn-outline-secondary btn-sm">Detail</a>
                     </div>
                 </div>
            
