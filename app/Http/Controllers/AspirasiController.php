@@ -42,15 +42,8 @@ class AspirasiController extends Controller
         $detail = Aspirasi::where('id', $id)->first();
         return view('pemohon.riwayat-aspirasi', compact(['dataaspirasi', 'detail']));
     }
-    
-    
-    
 // --------end ASPIRASI AKSES PEMOHON ------------------------------------------------
 
-/*
-     $riwayat = Pengaduan::where('id', $id)->first();    
-    return view('pemohon.detail-riwayatpengaduan', compact('riwayat'));
-*/
 
 
 
