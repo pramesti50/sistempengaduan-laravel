@@ -48,7 +48,7 @@ class LoginController extends Controller
         }
         else
         {
-            return redirect()->back()->with('status', 'Username/password Anda tidak sesuai');
+            return redirect()->back()->with('status', 'Akun anda tidak terdaftar');
         }
         
     }

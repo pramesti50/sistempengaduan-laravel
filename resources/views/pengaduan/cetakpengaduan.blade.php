@@ -260,7 +260,7 @@
             
                                                             <div class="form-group">
                                                                 <label for="tanggapan" style="color:#000;">Tindak Lanjut</label>
-                                                                <p type="text" class="form-control-plaintext" id="tanggapan" name="tanggapan" style="text-align:justify;">{{ $semuaPengaduan->tanggapan }}</p>
+                                                                <p type="text" class="form-control-plaintext" id="tanggapan" name="tanggapan" style="text-align:justify;">{!! nl2br(e($semuaPengaduan->tanggapan)) !!}</p>
                                                             </div>
             
                                                             <div class="form-group">
