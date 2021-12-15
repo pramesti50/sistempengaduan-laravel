@@ -36,7 +36,7 @@ class AspirasiController extends Controller
     public function indexRiwayatAspirasi(Request $request)
     {
         $id = $request->session()->get('idlogin');
-        $dataaspirasi = Aspirasi::where(['pemohon_id' => $id, 'status' => 'Aktif'])->orderBy('id', 'desc')->paginate(10);
+        $dataaspirasi = Aspirasi::where('pemohon_id', $id)->orderBy('id', 'desc')->paginate(20);
         
         //tombol modal detail aspirasi
         $detail = Aspirasi::where('id', $id)->first();
@@ -50,7 +50,7 @@ class AspirasiController extends Controller
 // -------AKSES PEGAWAI Admin dan Verifikator ----------------
     public function indexDataAspirasi(Request $request)
     {
-    //simple
+    
         $tgl_awal =$request->tgl_awal . ' '.'00:00:00';
         $tgl_akhir =$request->tgl_akhir . ' '.'23:59:59';
         
@@ -66,7 +66,7 @@ class AspirasiController extends Controller
 
         $totalaspirasi = $datanya->count();
 
-        $dataaspirasi = $datanya->orderBy('id', 'desc')->paginate(15);
+        $dataaspirasi = $datanya->orderBy('id', 'desc')->paginate(20);
         
         return view('aspirasi.index', compact(['dataaspirasi', 'tgl_awal', 'tgl_akhir', 'totalaspirasi']));
     }
@@ -113,7 +113,7 @@ class AspirasiController extends Controller
 
 
 
-
+/*
 //----GAJADI DIPAKE HALAMANNYA INI--------------
     public function filterAspirasi(Request $request)
     {
@@ -173,7 +173,7 @@ class AspirasiController extends Controller
     
     
 // -------------------END AKSES PEGAWAI Admin dan Verifikator
-
+*/
 
     
 }

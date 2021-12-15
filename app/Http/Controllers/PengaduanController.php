@@ -105,7 +105,7 @@ class PengaduanController extends Controller
                 ['status', '!=', 'Belum Diproses'],
                 ['status', '!=', 'Selesai'],
                 ['status', '!=', 'Tidak Aktif'],
-            ])->paginate(10);
+            ])->paginate(15);
         }
 
         return view ('pengaduan.sedang-diproses', compact('pengaduanMasuk', 'sedangproses'));
@@ -152,9 +152,10 @@ class PengaduanController extends Controller
      
         $aduanlesai = Pengaduan::with('pegawai');
         if (!empty($request->awalselesai) && !empty($request->akhirselesai)) {
-            $aduanlesai->whereBetween('tgl_verifikasi',[$awalselesai, $akhirselesai])->orderby('id','asc');
+            $aduanlesai->whereBetween('tgl_verifikasi',[$awalselesai, $akhirselesai])->orderby('tgl_verifikasi','asc');
         }
 
+        //tampilan awalan baru buka halamannya (klo ga ada filter tgl)
         $pengaduanMasuk = $aduanlesai->latest('updated_at')->where(['status' => 'Selesai'])->paginate(15);       
         return view('pengaduan.selesai', ['pengaduanMasuk' => $pengaduanMasuk, 'awalselesai' => $awalselesai, 'akhirselesai' => $akhirselesai, 'selesai' => $selesai]);
     }
@@ -230,7 +231,7 @@ class PengaduanController extends Controller
     {
         $total_tdkaktif = Pengaduan::where(['status' => 'Tidak Aktif'])->count();
 
-        $tdkaktif = Pengaduan::where('status',['Tidak Aktif'])->orderby('updated_at', 'desc')->paginate(10);
+        $tdkaktif = Pengaduan::where('status',['Tidak Aktif'])->orderby('updated_at', 'desc')->paginate(15);
         return view('pengaduan.tidak-aktif', compact(['total_tdkaktif', 'tdkaktif']));
         
         
@@ -245,7 +246,7 @@ class PengaduanController extends Controller
         $awal_tdkaktif = $request->awal_tdkaktif;
         $akhir_tdkaktif = $request->akhir_tdkaktif;
 
-        $tdkaktif = Pengaduan::whereBetween('tgl_verifikasi', [$awal_tdkaktif, $akhir_tdkaktif])->where(['status' => 'Tidak Aktif'])->latest('updated_at')->paginate(10);
+        $tdkaktif = Pengaduan::whereBetween('tgl_verifikasi', [$awal_tdkaktif, $akhir_tdkaktif])->where(['status' => 'Tidak Aktif'])->latest('updated_at')->paginate(15);
         return view('pengaduan.tidak-aktif', ['tdkaktif' => $tdkaktif, 'awal_tdkaktif' => $awal_tdkaktif, 'akhir_tdkaktif' => $akhir_tdkaktif, 'total_tdkaktif' => $total_tdkaktif]);
     }
 
