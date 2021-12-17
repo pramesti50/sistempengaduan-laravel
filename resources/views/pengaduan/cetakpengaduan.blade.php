@@ -276,6 +276,12 @@
                                                                     </p>
                                                                 @endif
                                                             </div>
+
+                                                            <div class="form-group">
+                                                                <label for="pegawai_id" style="color:#000;">Kategori Bidang</label>
+                                                                <p type="text" class="form-control-plaintext" id="pegawai_id" name="pegawai_id" 
+                                                                value="">{{ $semuaPengaduan->pegawai['namabidang'] }}</p>
+                                                            </div>
             
                                                             <div class="form-group">
                                                                 <label for="status" style="color:#000;">Status</label>
