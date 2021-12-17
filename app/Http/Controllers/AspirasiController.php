@@ -61,7 +61,7 @@ class AspirasiController extends Controller
         }
 
         if (!empty($request->tgl_awal) && !empty($request->tgl_akhir)) {
-            $datanya->whereBetween('created_at',[$tgl_awal, $tgl_akhir]);
+            $datanya->whereBetween('created_at',[$tgl_awal, $tgl_akhir])->orderby('id', 'asc');
         }
 
         $totalaspirasi = $datanya->count();
